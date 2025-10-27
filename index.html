@@ -1,1 +1,35 @@
-<!doctype html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Admin - Win-R666</title><link rel='stylesheet' href='../frontend/style.css'></head><body><header class='topbar'><div class='brand'>Win-R666 Admin</div></header><main class='container'><h2>Admin Dashboard</h2><div id='deposits'></div><div id='withdraws'></div></main><script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script><script>const firebaseConfig={"apiKey": "AIzaSyDGA2dQ9QAnQnNqrVSKEZN-C2mzIL6xaRs", "authDomain": "winr666-50429.firebaseapp.com", "projectId": "winr666-50429", "storageBucket": "winr666-50429.firebasestorage.app", "messagingSenderId": "530235379797", "appId": "1:530235379797:web:fc9eb0712e28f4015bc4dc"};firebase.initializeApp(firebaseConfig);const db=firebase.firestore();db.collection('deposits').onSnapshot(snap=>{const el=document.getElementById('deposits');el.innerHTML='';snap.forEach(d=>{const data=d.data();const div=document.createElement('div');div.className='card';div.innerHTML=`${data.phone} - ৳${data.amount} - ${data.status}`;el.appendChild(div)})});</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Admin Login</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="login-box">
+    <h2>Admin Login</h2>
+    <input id="email" class="input" type="email" placeholder="Email" />
+    <input id="password" class="input" type="password" placeholder="Password" />
+    <button id="loginBtn" class="btn">Login</button>
+    <div id="error" class="small" style="color:#c53030;margin-top:8px"></div>
+    <div class="small" style="margin-top:12px">Use the admin account created in Firebase Authentication.</div>
+  </div>
+
+<!-- Firebase SDKs (compat) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script>
+  const FIREBASE_CONFIG = {
+    apiKey: "AIzaSyDGA2dQ9QAnQnNqrVSKEZN-C2mzIL6xaRs",
+    authDomain: "winr666-50429.firebaseapp.com",
+    projectId: "winr666-50429",
+    storageBucket: "winr666-50429.firebasestorage.app",
+    messagingSenderId: "530235379797",
+    appId: "1:530235379797:web:fc9eb0712e28f4015bc4dc"
+  };
+  firebase.initializeApp(FIREBASE_CONFIG);
+</script>
+<script src="js/auth.js"></script>
+</body>
+</html>

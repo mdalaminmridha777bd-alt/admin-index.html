@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Admin Panel</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="center" style="display:flex;gap:18px">
+    <aside class="sidebar" style="width:260px">
+      <div style="font-weight:700;margin-bottom:8px">My Gaming Admin</div>
+      <div class="small">Logged in: <span id="authEmail">—</span></div>
+      <div style="margin-top:12px">
+        <button id="logoutBtn" class="btn" style="background:#ef4444">Logout</button>
+      </div>
+      <div style="margin-top:16px">
+        <div class="small">Quick actions</div>
+        <div style="margin-top:8px">
+          <button id="addUserBtn" class="btn">+ Add User</button>
+        </div>
+      </div>
+    </aside>
+
+    <main style="flex:1">
+      <div class="header">
+        <div>
+          <h1 style="margin:0">Dashboard</h1>
+          <div class="small">Manage demo balances and games</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Users</h3>
+        <table class="table">
+          <thead><tr><th>Name</th><th>Phone</th><th>Balance</th><th>Actions</th></tr></thead>
+          <tbody id="usersTable"></tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>Payments (Demo)</h3>
+        <div id="paymentsList" class="small">No demo payments</div>
+      </div>
+    </main>
+  </div>
+
+<!-- Firebase SDKs (compat) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<script>
+  const FIREBASE_CONFIG = {
+    apiKey: "AIzaSyDGA2dQ9QAnQnNqrVSKEZN-C2mzIL6xaRs",
+    authDomain: "winr666-50429.firebaseapp.com",
+    projectId: "winr666-50429",
+    storageBucket: "winr666-50429.firebasestorage.app",
+    messagingSenderId: "530235379797",
+    appId: "1:530235379797:web:fc9eb0712e28f4015bc4dc"
+  };
+  firebase.initializeApp(FIREBASE_CONFIG);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+</script>
+
+<script src="js/auth.js"></script>
+<script>
+const STORAGE_KEY = "mg_demo_v1";
+let state = { users:[{id:1,name:"Rafi",phone:"01710001111",balance:1200},{id:2,name:"Salma",phone:"01710002222",balance:90}], payments:[], settings:{autoDemo:50} };
+
+function $(id){return document.getElementById(id)}
+function renderUsers(){
+  const tbody = $('usersTable'); tbody.innerHTML = "";
+  state.users.forEach(u=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${u.name}</td><td>${u.phone}</td><td>৳${u.balance}</td><td><button class="btn" onclick="editUser(${u.id})">Edit</button></td>`;
+    tbody.appendChild(tr);
+  });
+}
+function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+function loadState(){ try{ const raw = localStorage.getItem(STORAGE_KEY); if(raw) state = JSON.parse(raw);}catch(e){} }
+function addUser(){ const name = prompt('Name'); if(!name) return; const phone = prompt('Phone'); const bal = Number(prompt('Balance','100')||0); const id = Date.now(); state.users.push({id,name,phone,balance:bal}); saveState(); renderUsers(); if(firebase.auth().currentUser){ syncToFirestore(); } }
+window.addUser = addUser;
+window.editUser = function(id){ const u = state.users.find(x=>x.id===id); if(!u) return; const name = prompt('Name',u.name); const phone = prompt('Phone',u.phone); const bal = Number(prompt('Balance',u.balance)||0); u.name=name; u.phone=phone; u.balance=bal; saveState(); renderUsers(); if(firebase.auth().currentUser){ syncToFirestore(); } }
+
+$('addUserBtn').addEventListener('click', addUser);
+$('logoutBtn').addEventListener('click', ()=>{ firebase.auth().signOut().then(()=> location.href='index.html'); });
+
+function syncToFirestore(){
+  if(!firebase.auth().currentUser) return;
+  const batch = db.batch();
+  const usersRef = db.collection('users');
+  state.users.forEach(u=>{ const doc = usersRef.doc(String(u.id)); batch.set(doc, u, {merge:true}); });
+  batch.commit().then(()=> console.log('Synced to Firestore')).catch(e=>console.warn(e));
+}
+
+function loadFromFirestore(){
+  if(!firebase.auth().currentUser) return;
+  db.collection('users').get().then(snap=>{ const arr=[]; snap.forEach(doc=> arr.push(doc.data())); if(arr.length) state.users = arr; saveState(); renderUsers(); }).catch(e=>console.warn(e));
+}
+
+firebase.auth().onAuthStateChanged(user=>{
+  if(!user) location.href='index.html';
+  else { $('authEmail').textContent = user.email; loadState(); renderUsers(); loadFromFirestore(); }
+});
+</script>
+</body>
+</html>

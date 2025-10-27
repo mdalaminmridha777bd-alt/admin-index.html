@@ -1,0 +1,12 @@
+/* css/style.css - minimal styles for login and admin */
+body{font-family:Inter,Arial,Helvetica,sans-serif;background:#f7fafc;color:#071232;margin:0;padding:20px}
+.center{max-width:980px;margin:0 auto}
+.login-box{background:#fff;padding:28px;border-radius:12px;box-shadow:0 10px 30px rgba(15,23,42,0.06);width:360px;margin:80px auto;text-align:center}
+.input{width:100%;padding:10px;border-radius:8px;border:1px solid #eef2f7;margin-top:10px}
+.btn{padding:10px 14px;border-radius:8px;border:0;background:#0b74ff;color:#fff;cursor:pointer;margin-top:12px}
+.small{font-size:13px;color:#6b7280}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.sidebar{background:#fff;padding:16px;border-radius:12px;box-shadow:0 8px 30px rgba(11,36,71,0.06);height:calc(100vh - 40px)}
+.card{background:#fff;padding:14px;border-radius:12px;box-shadow:0 8px 30px rgba(11,36,71,0.06);margin-bottom:12px}
+.table{width:100%;border-collapse:collapse}
+.table th,.table td{padding:8px;border-bottom:1px solid #f1f5f9;text-align:left}
