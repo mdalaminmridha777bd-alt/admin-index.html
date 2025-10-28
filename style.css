@@ -1,12 +1,20 @@
-/* css/style.css - minimal styles for login and admin */
-body{font-family:Inter,Arial,Helvetica,sans-serif;background:#f7fafc;color:#071232;margin:0;padding:20px}
-.center{max-width:980px;margin:0 auto}
-.login-box{background:#fff;padding:28px;border-radius:12px;box-shadow:0 10px 30px rgba(15,23,42,0.06);width:360px;margin:80px auto;text-align:center}
-.input{width:100%;padding:10px;border-radius:8px;border:1px solid #eef2f7;margin-top:10px}
-.btn{padding:10px 14px;border-radius:8px;border:0;background:#0b74ff;color:#fff;cursor:pointer;margin-top:12px}
-.small{font-size:13px;color:#6b7280}
+/* assets/style.css */
+:root{--bg:#f7fafc;--card:#fff;--accent:#0b74ff;--muted:#6b7280;--radius:12px;--shadow:0 10px 30px rgba(11,36,71,0.06)}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,Helvetica,sans-serif;background:var(--bg);color:#071232}
+.container{max-width:1200px;margin:20px auto;padding:16px}
 .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.sidebar{background:#fff;padding:16px;border-radius:12px;box-shadow:0 8px 30px rgba(11,36,71,0.06);height:calc(100vh - 40px)}
-.card{background:#fff;padding:14px;border-radius:12px;box-shadow:0 8px 30px rgba(11,36,71,0.06);margin-bottom:12px}
+.logo{font-weight:800;color:#fff;background:linear-gradient(135deg,var(--accent),#0b9cff);padding:10px;border-radius:10px}
+.grid{display:grid;grid-template-columns:260px 1fr;gap:18px}
+.sidebar{background:var(--card);padding:16px;border-radius:12px;box-shadow:var(--shadow);height:calc(100vh - 64px);position:sticky;top:20px;overflow:auto}
+.nav button{display:block;width:100%;text-align:left;padding:10px;border-radius:8px;border:0;background:transparent;margin-bottom:6px;cursor:pointer}
+.nav button.active{background:rgba(11,116,255,0.06)}
+.card{background:var(--card);padding:14px;border-radius:12px;box-shadow:var(--shadow);margin-bottom:12px}
+.stat{font-weight:700;font-size:20px}
 .table{width:100%;border-collapse:collapse}
 .table th,.table td{padding:8px;border-bottom:1px solid #f1f5f9;text-align:left}
+.btn{padding:8px 12px;border-radius:8px;border:0;background:var(--accent);color:#fff;cursor:pointer}
+.btn.soft{background:transparent;border:1px solid rgba(11,116,255,0.08);color:var(--accent)}
+.input{padding:8px;border-radius:8px;border:1px solid #eef2f7}
+.small{font-size:13px;color:var(--muted)}
+.footer{font-size:13px;color:var(--muted);text-align:center;margin-top:12px}
+@media (max-width:900px){.grid{grid-template-columns:1fr;padding:12px}}

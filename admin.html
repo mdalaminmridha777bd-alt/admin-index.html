@@ -1,55 +1,40 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Admin Panel</title>
-<link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-  <div class="center" style="display:flex;gap:18px">
-    <aside class="sidebar" style="width:260px">
-      <div style="font-weight:700;margin-bottom:8px">My Gaming Admin</div>
-      <div class="small">Logged in: <span id="authEmail">—</span></div>
-      <div style="margin-top:12px">
-        <button id="logoutBtn" class="btn" style="background:#ef4444">Logout</button>
-      </div>
-      <div style="margin-top:16px">
-        <div class="small">Quick actions</div>
-        <div style="margin-top:8px">
-          <button id="addUserBtn" class="btn">+ Add User</button>
+<!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>WinR666 — Admin Dashboard</title><link rel="stylesheet" href="assets/style.css"></head><body>
+  <div class="container">
+    <div class="header"><div style="display:flex;gap:12px;align-items:center"><div class="logo">WinR666</div><div><strong>Admin Panel</strong></div></div>
+      <div><span class="small">Signed in as <strong id="authEmail">—</strong></span><button id="logoutBtn" class="btn" style="margin-left:12px;background:#ef4444">Logout</button></div></div>
+    <div class="grid">
+      <aside class="sidebar"><div class="nav">
+          <button id="nav-overview" class="active">Overview</button>
+          <button id="nav-users">Users</button>
+          <button id="nav-payments">Payments</button>
+          <button id="nav-games">Game Control</button>
+          <button id="nav-reports">Balance Report</button>
+          <button id="nav-settings">Settings</button>
+          <button id="nav-notify">Notifications</button>
         </div>
-      </div>
-    </aside>
-
-    <main style="flex:1">
-      <div class="header">
-        <div>
-          <h1 style="margin:0">Dashboard</h1>
-          <div class="small">Manage demo balances and games</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>Users</h3>
-        <table class="table">
-          <thead><tr><th>Name</th><th>Phone</th><th>Balance</th><th>Actions</th></tr></thead>
-          <tbody id="usersTable"></tbody>
-        </table>
-      </div>
-
-      <div class="card">
-        <h3>Payments (Demo)</h3>
-        <div id="paymentsList" class="small">No demo payments</div>
-      </div>
-    </main>
+        <div style="margin-top:12px"><div class="small">Quick</div><div style="margin-top:8px"><button id="quick-add-user" class="btn">+ Add User</button></div></div>
+      </aside>
+      <main>
+        <section id="overview_section">
+          <div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><div><h3 style="margin:0">Overview</h3><div class="small">Realtime platform snapshot</div></div><div style="display:flex;gap:12px;align-items:center"><div class="small">Total Users: <strong id="stat-users">0</strong></div><div class="small">Total Balance: <strong id="stat-balance">৳0</strong></div></div></div></div>
+          <div class="card"><h3>Recent Activity</h3><div id="activityList" class="small"></div></div>
+        </section>
+        <section id="users_section" style="display:none">
+          <div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><div><h3>Users</h3><div class="small">Manage users & demo balances</div></div><div><button id="exportUsers" class="btn soft">Export CSV</button></div></div>
+            <div style="margin-top:12px;overflow:auto"><table class="table"><thead><tr><th>Name</th><th>Email</th><th>Balance</th><th>Status</th><th>Action</th></tr></thead><tbody id="usersTable"></tbody></table></div></div>
+        </section>
+        <section id="payments_section" style="display:none"><div class="card"><h3>Payments</h3><div class="small">Approve demo deposits/withdrawals</div><div id="paymentsList" style="margin-top:12px"></div></div></section>
+        <section id="games_section" style="display:none"><div class="card"><h3>Game Control</h3><div class="small">Win % Control</div><div style="margin-top:8px;display:flex;gap:8px;align-items:center"><input id="winPercent" type="number" min="0" max="100" class="input" style="width:100px" value="50"/><button id="applyWin" class="btn">Apply</button></div><div style="margin-top:12px"><button id="gamesOn" class="btn">Turn Games ON</button><button id="gamesOff" class="btn soft">Turn Games OFF</button></div></div></section>
+        <section id="reports_section" style="display:none"><div class="card"><h3>Balance Report</h3><div style="margin-top:8px"><button id="exportReport" class="btn soft">Export Report CSV</button></div><div style="margin-top:12px;overflow:auto"><table class="table"><thead><tr><th>User</th><th>Balance</th><th>Bet</th></tr></thead><tbody id="reportBody"></tbody></table></div></div></section>
+        <section id="settings_section" style="display:none"><div class="card"><h3>Settings</h3><div class="small">Referral %, Auto demo, Bonus</div><div style="margin-top:8px;display:flex;gap:8px;align-items:center"><input id="refPerc" class="input" placeholder="Referral %" style="width:120px"/><input id="autoDemo" class="input" placeholder="Auto demo" style="width:120px"/><button id="saveSettings" class="btn">Save</button></div></div></section>
+        <section id="notify_section" style="display:none"><div class="card"><h3>Notifications</h3><div style="margin-top:8px;display:flex;gap:8px"><select id="notifyType" class="input"><option value="text">Text</option><option value="image">Image URL</option><option value="video">Video URL</option></select><input id="notifyTitle" class="input" placeholder="Title"/><button id="createNotify" class="btn">Create</button></div><div id="offersList" style="margin-top:12px"></div></div></section>
+      </main>
+    </div>
+    <div class="footer">Built for demo — connect backend for production.</div>
   </div>
-
-<!-- Firebase SDKs (compat) -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-
 <script>
   const FIREBASE_CONFIG = {
     apiKey: "AIzaSyDGA2dQ9QAnQnNqrVSKEZN-C2mzIL6xaRs",
@@ -63,47 +48,37 @@
   const auth = firebase.auth();
   const db = firebase.firestore();
 </script>
-
-<script src="js/auth.js"></script>
 <script>
-const STORAGE_KEY = "mg_demo_v1";
-let state = { users:[{id:1,name:"Rafi",phone:"01710001111",balance:1200},{id:2,name:"Salma",phone:"01710002222",balance:90}], payments:[], settings:{autoDemo:50} };
-
-function $(id){return document.getElementById(id)}
-function renderUsers(){
-  const tbody = $('usersTable'); tbody.innerHTML = "";
-  state.users.forEach(u=>{
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${u.name}</td><td>${u.phone}</td><td>৳${u.balance}</td><td><button class="btn" onclick="editUser(${u.id})">Edit</button></td>`;
-    tbody.appendChild(tr);
-  });
-}
-function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-function loadState(){ try{ const raw = localStorage.getItem(STORAGE_KEY); if(raw) state = JSON.parse(raw);}catch(e){} }
-function addUser(){ const name = prompt('Name'); if(!name) return; const phone = prompt('Phone'); const bal = Number(prompt('Balance','100')||0); const id = Date.now(); state.users.push({id,name,phone,balance:bal}); saveState(); renderUsers(); if(firebase.auth().currentUser){ syncToFirestore(); } }
-window.addUser = addUser;
-window.editUser = function(id){ const u = state.users.find(x=>x.id===id); if(!u) return; const name = prompt('Name',u.name); const phone = prompt('Phone',u.phone); const bal = Number(prompt('Balance',u.balance)||0); u.name=name; u.phone=phone; u.balance=bal; saveState(); renderUsers(); if(firebase.auth().currentUser){ syncToFirestore(); } }
-
-$('addUserBtn').addEventListener('click', addUser);
-$('logoutBtn').addEventListener('click', ()=>{ firebase.auth().signOut().then(()=> location.href='index.html'); });
-
-function syncToFirestore(){
-  if(!firebase.auth().currentUser) return;
-  const batch = db.batch();
-  const usersRef = db.collection('users');
-  state.users.forEach(u=>{ const doc = usersRef.doc(String(u.id)); batch.set(doc, u, {merge:true}); });
-  batch.commit().then(()=> console.log('Synced to Firestore')).catch(e=>console.warn(e));
-}
-
-function loadFromFirestore(){
-  if(!firebase.auth().currentUser) return;
-  db.collection('users').get().then(snap=>{ const arr=[]; snap.forEach(doc=> arr.push(doc.data())); if(arr.length) state.users = arr; saveState(); renderUsers(); }).catch(e=>console.warn(e));
-}
-
-firebase.auth().onAuthStateChanged(user=>{
-  if(!user) location.href='index.html';
-  else { $('authEmail').textContent = user.email; loadState(); renderUsers(); loadFromFirestore(); }
-});
-</script>
-</body>
-</html>
+const $ = id => document.getElementById(id);
+let state = {users:[], payments:[], offers:[], settings:{referral:5,autoDemo:50,winPercent:50}, activity:[]};
+function addActivity(text){ state.activity.unshift({text,time:new Date().toLocaleString()}); if(state.activity.length>20) state.activity.pop(); renderActivity(); }
+function renderActivity(){ const el=$('activityList'); el.innerHTML=''; state.activity.forEach(a=>{ const d=document.createElement('div'); d.style.padding='6px 0'; d.innerHTML=`<strong>${a.text}</strong><div class="small">${a.time}</div>`; el.appendChild(d); }); }
+function renderStats(){ $('stat-users').textContent = state.users.length; const total = state.users.reduce((s,u)=>s+Number(u.balance||0),0); $('stat-balance').textContent = '৳'+total.toLocaleString(); }
+function renderUsers(){ const tbody=$('usersTable'); tbody.innerHTML=''; state.users.forEach(u=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${u.name||''}</td><td>${u.email||''}</td><td>৳${u.balance||0}</td><td>${u.status||''}</td><td><button class="btn soft" onclick="editUser('${u._id}')">Edit</button> <button class="btn" onclick="deleteUser('${u._id}')">Delete</button></td>`; tbody.appendChild(tr); }); }
+function renderReports(){ const tbody=$('reportBody'); tbody.innerHTML=''; state.users.forEach(u=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${u.name}</td><td>৳${u.balance||0}</td><td>${u.bet||0}</td>`; tbody.appendChild(tr); }); }
+function renderPayments(){ const el=$('paymentsList'); el.innerHTML=''; if(state.payments.length===0) el.innerHTML='<div class="small">No demo payments</div>'; state.payments.forEach(p=>{ const user = state.users.find(u=>u._id==p.userId)||{name:'Unknown'}; const div=document.createElement('div'); div.style.marginBottom='8px'; div.innerHTML=`<div style="display:flex;justify-content:space-between"><div><strong>${user.name}</strong> <div class="small">${p.type} ৳${p.amount}</div></div><div><button class="btn" onclick="approve('${p._id}')">Approve</button> <button class="btn soft" onclick="reject('${p._id}')">Reject</button></div></div>`; el.appendChild(div); }); }
+function renderOffers(){ const el=$('offersList'); el.innerHTML=''; state.offers.forEach((o,idx)=>{ const box=document.createElement('div'); box.className='card'; box.style.marginBottom='8px'; box.innerHTML=`<div style="display:flex;justify-content:space-between"><div><strong>${o.title}</strong><div class="small">${o.type}</div></div><div><button class="btn soft" onclick="removeOffer(${idx})">Remove</button></div></div>`; el.appendChild(box); }); }
+async function loadFromFirestore(){ if(!auth.currentUser) return; try{ const usersSnap = await db.collection('users').get(); const users = []; usersSnap.forEach(doc=>{ const d = doc.data(); d._id = doc.id; users.push(d); }); state.users = users; const paymentsSnap = await db.collection('payments').get(); const payments = []; paymentsSnap.forEach(doc=>{ const d = doc.data(); d._id = doc.id; payments.push(d); }); state.payments = payments; const offersSnap = await db.collection('offers').get(); const offers = []; offersSnap.forEach(doc=> offers.push(doc.data())); state.offers = offers; renderAll(); addActivity('Loaded data from Firestore'); }catch(e){ console.warn(e); addActivity('Error loading Firestore'); } }
+async function syncToFirestore(){ if(!auth.currentUser) return; try{ await db.collection('admin').doc('meta').set({settings: state.settings, updated: firebase.firestore.FieldValue.serverTimestamp()}); const batch = db.batch(); const usersRef = db.collection('users'); state.users.forEach(u=>{ const docRef = usersRef.doc(String(u._id)); const copy = Object.assign({}, u); delete copy._id; batch.set(docRef, copy, {merge:true}); }); await batch.commit(); addActivity('Synced to Firestore'); }catch(e){ console.warn(e); addActivity('Sync error'); } }
+$('nav-overview').addEventListener('click', ()=>show('overview_section')); $('nav-users').addEventListener('click', ()=>show('users_section')); $('nav-payments').addEventListener('click', ()=>show('payments_section')); $('nav-games').addEventListener('click', ()=>show('games_section')); $('nav-reports').addEventListener('click', ()=>show('reports_section')); $('nav-settings').addEventListener('click', ()=>show('settings_section')); $('nav-notify').addEventListener('click', ()=>show('notify_section'));
+function show(id){ ['overview_section','users_section','payments_section','games_section','reports_section','settings_section','notify_section'].forEach(s=>{ document.getElementById(s).style.display = (s===id)?'':'none'; }); document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active')); document.querySelector('#nav-'+id.replace('_section','')).classList.add('active'); }
+$('quick-add-user').addEventListener('click', ()=>addUserPrompt()); $('exportUsers').addEventListener('click', ()=>exportUsersCSV()); $('exportReport').addEventListener('click', ()=>exportReportCSV());
+function addUserPrompt(){ const name = prompt('Name'); if(!name) return; const email = prompt('Email'); const bal = Number(prompt('Demo balance','100')||0); const id = Date.now().toString(); const obj = {_id: id, name, email, balance: bal, status: 'active'}; state.users.push(obj); renderAll(); saveLocal(); if(auth.currentUser) syncToFirestore(); addActivity('Added user '+name); }
+window.editUser = async function(id){ const u = state.users.find(x=>x._id==id); if(!u) return; const name = prompt('Name',u.name); const email = prompt('Email',u.email); const bal = Number(prompt('Balance',u.balance)||0); u.name=name; u.email=email; u.balance=bal; renderAll(); saveLocal(); if(auth.currentUser) syncToFirestore(); addActivity('Edited user '+name); }
+window.deleteUser = function(id){ if(!confirm('Delete user?')) return; state.users = state.users.filter(x=>x._id!=id); renderAll(); saveLocal(); if(auth.currentUser) { db.collection('users').doc(String(id)).delete().then(()=> addActivity('Deleted user from Firestore')).catch(()=> addActivity('Delete fail')); } }
+window.approve = function(id){ const p = state.payments.find(x=>x._id==id); if(!p) return; const u = state.users.find(x=>x._id==p.userId); if(p.type==='deposit'){ if(u) u.balance = Number(u.balance||0) + Number(p.amount||0); } if(p.type==='withdraw'){ if(u) u.balance = Number(u.balance||0) - Number(p.amount||0); } state.payments = state.payments.filter(x=>x._id!=id); renderAll(); saveLocal(); if(auth.currentUser) syncToFirestore(); addActivity('Processed payment '+id); }
+window.reject = function(id){ state.payments = state.payments.filter(x=>x._id!=id); renderAll(); saveLocal(); addActivity('Rejected payment'); if(auth.currentUser) syncToFirestore(); }
+document.getElementById('createNotify').addEventListener('click', ()=>{ const type = document.getElementById('notifyType').value; const title = document.getElementById('notifyTitle').value.trim(); if(!title) return alert('Enter title'); state.offers.unshift({type,title,created:new Date().toISOString()}); renderOffers(); saveLocal(); if(auth.currentUser) db.collection('offers').add({type,title,created:firebase.firestore.FieldValue.serverTimestamp()}); addActivity('Created offer '+title); });
+window.removeOffer = function(idx){ state.offers.splice(idx,1); renderOffers(); saveLocal(); if(auth.currentUser) { /* could remove from firestore if id present */ } }
+document.getElementById('saveSettings').addEventListener('click', ()=>{ state.settings.referral = Number(document.getElementById('refPerc').value||state.settings.referral); state.settings.autoDemo = Number(document.getElementById('autoDemo').value||state.settings.autoDemo); saveLocal(); if(auth.currentUser) syncToFirestore(); addActivity('Settings saved'); });
+document.getElementById('applyWin').addEventListener('click', ()=>{ state.settings.winPercent = Number(document.getElementById('winPercent').value||50); saveLocal(); if(auth.currentUser) syncToFirestore(); addActivity('Win% set to '+state.settings.winPercent); });
+function exportUsersCSV(){ let csv="id,name,email,balance,status\n"; state.users.forEach(u=> csv+=`${u._id},"${u.name}","${u.email}",${u.balance},${u.status}\n`); download('users.csv',csv); addActivity('Exported users'); }
+function exportReportCSV(){ let csv="user,balance,bet\n"; state.users.forEach(u=> csv+=`"${u.name}",${u.balance},${u.bet||0}\n`); download('report.csv',csv); addActivity('Exported report'); }
+function download(name,content){ const blob=new Blob([content],{type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); a.remove(); }
+function saveLocal(){ localStorage.setItem('winr666_state', JSON.stringify(state)); }
+function loadLocal(){ try{ const raw = localStorage.getItem('winr666_state'); if(raw) state = JSON.parse(raw); }catch(e){} }
+function renderAll(){ renderStats(); renderUsers(); renderReports(); renderPayments(); renderOffers(); renderActivity(); }
+loadLocal();
+auth.onAuthStateChanged(user=>{ if(!user) { window.location.href='index.html'; return; } document.getElementById('authEmail').textContent = user.email; loadFromFirestore(); });
+window.addEventListener('beforeunload', saveLocal);
+</script></body></html>

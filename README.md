@@ -1,13 +1,1 @@
-Admin Panel (Email/Password auth only)
-
-Files:
-- index.html  -> Login page (email/password)
-- admin.html  -> Admin Dashboard (protected by Firebase auth)
-- js/auth.js  -> Authentication logic
-- css/style.css -> basic styling
-
-How to use:
-1. Upload these files to your GitHub Pages repo root.
-2. In Firebase Console: enable Email/Password sign-in and create an admin user.
-3. Open index.html, login with admin credentials, you'll be redirected to admin.html.
-4. To enable Firestore sync, add data in Firestore 'users' collection or allow the admin to add users in the panel.
+WinR666 Admin Panel — Full System (Firebase integrated)\n\nContents:\n- index.html  -> Login (Email + Password)\n- admin.html  -> Full Admin Dashboard (Users, Payments, Game Control, Reports, Settings, Notifications)\n- assets/style.css -> Stylesheet\n\nHow to use:\n1. Unzip and upload files to your GitHub Pages repo root.\n2. In Firebase Console (winr666-50429):\n   - Enable Email/Password sign-in (Authentication -> Sign-in method).\n   - Create admin user (Authentication -> Users -> Add user).\n   - (Optional) Create Firestore collections: users, payments, offers.\n3. Open index.html, sign in with admin credentials. admin.html will load live data from Firestore.\n4. For production, update Firestore Rules to restrict writes to admins only.\n\nNote: This is a demo-ready frontend. For full production security (biometrics, server-side validation, payments) a backend service is required.

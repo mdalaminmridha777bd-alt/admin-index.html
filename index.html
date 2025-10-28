@@ -1,24 +1,24 @@
 <!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Admin Login</title>
-<link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-  <div class="login-box">
-    <h2>Admin Login</h2>
-    <input id="email" class="input" type="email" placeholder="Email" />
-    <input id="password" class="input" type="password" placeholder="Password" />
-    <button id="loginBtn" class="btn">Login</button>
-    <div id="error" class="small" style="color:#c53030;margin-top:8px"></div>
-    <div class="small" style="margin-top:12px">Use the admin account created in Firebase Authentication.</div>
+<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>WinR666 — Admin Login</title><link rel="stylesheet" href="assets/style.css"></head><body>
+  <div class="container">
+    <div class="header"><div class="logo">WinR666</div><div class="small">Secure Admin Panel</div></div>
+    <div style="max-width:420px;margin:40px auto;background:#fff;padding:24px;border-radius:12px;box-shadow:0 10px 30px rgba(11,36,71,0.06);text-align:center">
+      <h2 style="margin:0 0 8px 0">Admin Login</h2>
+      <p class="small" style="margin:0 0 12px 0">Use Email & Password created in Firebase Authentication</p>
+      <input id="email" class="input" type="email" placeholder="Email" style="width:100%;margin-bottom:8px"/>
+      <input id="password" class="input" type="password" placeholder="Password" style="width:100%;margin-bottom:12px"/>
+      <div style="display:flex;gap:8px;justify-content:center">
+        <button id="loginBtn" class="btn">Login</button>
+        <button id="signupBtn" class="btn soft">Sign up</button>
+      </div>
+      <div id="error" class="small" style="color:#c53030;margin-top:10px"></div>
+      <div class="small" style="margin-top:12px">Demo-only panel — no real money handled.</div>
+    </div>
+    <div class="footer">Need help? Contact your developer.</div>
   </div>
-
-<!-- Firebase SDKs (compat) -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script>
   const FIREBASE_CONFIG = {
     apiKey: "AIzaSyDGA2dQ9QAnQnNqrVSKEZN-C2mzIL6xaRs",
@@ -29,7 +29,30 @@
     appId: "1:530235379797:web:fc9eb0712e28f4015bc4dc"
   };
   firebase.initializeApp(FIREBASE_CONFIG);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
 </script>
-<script src="js/auth.js"></script>
-</body>
-</html>
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const loginBtn = $('loginBtn'), signupBtn = $('signupBtn'), err = $('error');
+  loginBtn.addEventListener('click', ()=>{
+    const email = $('email').value.trim(), pass = $('password').value;
+    if(!email||!pass){ err.textContent='Enter email and password'; return; }
+    auth.signInWithEmailAndPassword(email, pass)
+      .then(()=> { window.location.href = 'admin.html'; })
+      .catch(e=>{ err.textContent = e.message; });
+  });
+  signupBtn.addEventListener('click', ()=>{
+    const email = $('email').value.trim(), pass = $('password').value;
+    if(!email||!pass){ err.textContent='Enter email and password'; return; }
+    if(!confirm('Create new admin user?')) return;
+    auth.createUserWithEmailAndPassword(email, pass)
+      .then(()=> { window.location.href='admin.html'; })
+      .catch(e=>{ err.textContent = e.message; });
+  });
+  auth.onAuthStateChanged(user=>{
+    if(user) window.location.href = 'admin.html';
+  });
+})();
+</script></body></html>
